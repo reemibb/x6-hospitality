@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id');
             $table->date('start_date');
             $table->date('end_date');
-            $table->boolean('is_available')->default(true);
             $table->timestamps();
 
             $table->foreign('room_id')->references('room_id')->on('rooms')->onDelete('cascade');
