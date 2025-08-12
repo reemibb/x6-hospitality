@@ -9,8 +9,22 @@ class Property extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'property_id';
+
     protected $fillable = [
-        'host_id', 'title', 'description', 'address', 'city', 'country', 'latitude', 'longitude', 'photos'
+        'host_id', 'title', 'description', 'address', 'city', 'country', 
+        'latitude', 'longitude', 'photos', 'type', 'price_per_night', 
+        'max_guests', 'bedrooms', 'bathrooms', 'amenities', 'images', 
+        'status', 'featured'
+    ];
+
+    protected $casts = [
+        'photos' => 'array',
+        'amenities' => 'array',
+        'images' => 'array',
+        'featured' => 'boolean',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
     ];
 
     public function host()

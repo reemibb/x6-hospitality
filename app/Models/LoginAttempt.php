@@ -9,6 +9,8 @@ class LoginAttempt extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'user_id',
         'email',

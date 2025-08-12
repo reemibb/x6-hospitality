@@ -9,6 +9,8 @@ class Amenity extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'amenity_id';
+
     protected $fillable = [
         'name', 'description'
     ];

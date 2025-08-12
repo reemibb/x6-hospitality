@@ -9,6 +9,8 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'payment_id';
+
     protected $fillable = [
         'user_id', 'booking_id', 'amount', 'currency', 'payment_method', 'payment_status', 'transaction_id', 'paid_at'
     ];

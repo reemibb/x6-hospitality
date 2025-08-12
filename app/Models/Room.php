@@ -9,6 +9,8 @@ class Room extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'room_id';
+
     protected $fillable = [
         'property_id', 'room_type', 'price_per_night', 'description', 'photos'
     ];

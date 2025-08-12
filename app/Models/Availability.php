@@ -9,6 +9,8 @@ class Availability extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'availability_id';
+
     protected $fillable = [
         'room_id', 'start_date', 'end_date'
     ];
