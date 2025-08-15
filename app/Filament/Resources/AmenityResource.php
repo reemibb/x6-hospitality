@@ -31,12 +31,25 @@ class AmenityResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true)
-                            ->placeholder('e.g., WiFi, Swimming Pool, Parking'),
+                            ->columnSpan(2),
+
+                        Forms\Components\Select::make('category')
+                            ->label('Category')
+                            ->options([
+                                'property' => 'Property Only',
+                                'room' => 'Room Only',
+                                'both' => 'Both Property & Room',
+                            ])
+                            ->required()
+                            ->default('both')
+                            ->helperText('Where this amenity can be used'),
+
                         Forms\Components\Textarea::make('description')
-                            ->rows(4)
+                            ->rows(3)
                             ->placeholder('Describe this amenity...')
                             ->columnSpanFull(),
-                    ]),
+                    ])
+                    ->columns(3),
             ]);
     }
 
@@ -47,37 +60,56 @@ class AmenityResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->weight('medium'),
+                    ->weight('bold'),
+
+                Tables\Columns\TextColumn::make('category')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'property' => 'info',
+                        'room' => 'warning',
+                        'both' => 'success',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'property' => 'Property',
+                        'room' => 'Room',
+                        'both' => 'Both',
+                    }),
+
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50)
+                    ->placeholder('No description')
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {
                         $state = $column->getState();
-                        if (strlen($state) <= 50) {
-                            return null;
-                        }
-                        return $state;
-                    })
-                    ->placeholder('No description'),
+                        return strlen($state) > 50 ? $state : null;
+                    }),
+
                 Tables\Columns\TextColumn::make('properties_count')
                     ->label('Used in Properties')
                     ->counts('properties')
                     ->badge()
                     ->color('info')
                     ->alignCenter(),
+
+                Tables\Columns\TextColumn::make('rooms_count')
+                    ->label('Used in Rooms')
+                    ->counts('rooms')
+                    ->badge()
+                    ->color('warning')
+                    ->alignCenter(),
+
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\Filter::make('has_properties')
-                    ->label('Used in Properties')
-                    ->query(fn (Builder $query): Builder => $query->has('properties'))
-                    ->toggle(),
+                Tables\Filters\SelectFilter::make('category')
+                    ->options([
+                        'property' => 'Property Only',
+                        'room' => 'Room Only',
+                        'both' => 'Both Property & Room',
+                    ])
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -86,22 +118,10 @@ class AmenityResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->action(function ($records) {
-                            // Only delete amenities not used by any properties
-                            $records->each(function ($record) {
-                                if ($record->properties()->count() === 0) {
-                                    $record->delete();
-                                }
-                            });
-                        })
-                        ->requiresConfirmation()
-                        ->modalHeading('Delete Amenities')
-                        ->modalDescription('Only amenities not used by any properties will be deleted.')
-                        ->modalSubmitActionLabel('Yes, delete them'),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('name', 'asc');
+            ->defaultSort('name');
     }
 
     public static function getRelations(): array

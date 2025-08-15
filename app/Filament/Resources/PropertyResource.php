@@ -115,26 +115,13 @@ class PropertyResource extends Resource
 
                 Section::make('Amenities & Features')
                     ->schema([
-                        Forms\Components\TagsInput::make('amenities')
-                            ->placeholder('Add amenities (e.g., WiFi, Pool, Parking)')
-                            ->suggestions([
-                                'WiFi',
-                                'Air Conditioning',
-                                'Swimming Pool',
-                                'Parking',
-                                'Kitchen',
-                                'Washing Machine',
-                                'TV',
-                                'Gym',
-                                'Pet Friendly',
-                                'Balcony',
-                                'Garden',
-                                'Hot Tub',
-                                'Fireplace',
-                                'Elevator',
-                                'Security System',
-                            ])
-                            ->columnSpanFull(),
+                        Forms\Components\CheckboxList::make('amenities')
+                            ->relationship('amenities', 'name', fn ($query) => $query->propertyAmenities())
+                            ->searchable()
+                            ->bulkToggleable()
+                            ->columns(3)
+                            ->columnSpanFull()
+                            ->helperText('Select amenities available at this property'),
                     ]),
 
                 Section::make('Images')

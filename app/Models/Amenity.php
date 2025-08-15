@@ -12,23 +12,40 @@ class Amenity extends Model
     protected $primaryKey = 'amenity_id';
 
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'category'
     ];
 
     public function properties()
     {
         return $this->belongsToMany(
-        Property::class, 
-        'property_amenity', 
-        'amenity_id',      // Foreign key on property_amenity table for this model
-        'property_id',     // Foreign key on property_amenity table for the related model
-        'amenity_id',      // Local key on amenities table
-        'property_id'      // Local key on properties table
-    );
+            Property::class, 
+            'property_amenity', 
+            'amenity_id',
+            'property_id',
+            'amenity_id',
+            'property_id'
+        );
     }
 
     public function rooms()
     {
-        return $this->belongsToMany(Room::class, 'room_amenity');
+        return $this->belongsToMany(
+            Room::class, 
+            'room_amenity', 
+            'amenity_id',
+            'room_id',
+            'amenity_id',
+            'room_id'
+        );
+    }
+
+    public function scopePropertyAmenities($query)
+    {
+        return $query->whereIn('category', ['property', 'both']);
+    }
+
+    public function scopeRoomAmenities($query)
+    {
+        return $query->whereIn('category', ['room', 'both']);
     }
 }

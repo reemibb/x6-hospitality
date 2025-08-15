@@ -34,10 +34,10 @@ class Property extends Model
 
     public function rooms()
     {
-        return $this->hasMany(Room::class);
+        return $this->hasMany(Room::class, 'property_id', 'property_id');
     }
 
-    public function amenities()
+    public function propertyAmenities()
     {
         return $this->belongsToMany(
         Amenity::class, 
@@ -51,16 +51,16 @@ class Property extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class, 'property_id', 'property_id');
     }
 
     public function availability()
     {
-        return $this->hasMany(Availability::class);
+        return $this->hasMany(Availability::class, 'property_id', 'property_id');
     }
 
     public function favorites()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->hasMany(Favorite::class, 'property_id', 'property_id');
     }
 }

@@ -69,11 +69,12 @@ class RoomResource extends Resource
                 Forms\Components\Section::make('Room Amenities')
                     ->schema([
                         Forms\Components\CheckboxList::make('amenities')
-                            ->relationship('amenities', 'name')
+                            ->relationship('amenities', 'name', fn ($query) => $query->roomAmenities())
                             ->searchable()
                             ->bulkToggleable()
                             ->columns(3)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->helperText('Select amenities available in this room'),
                     ])
                     ->collapsible(),
 
