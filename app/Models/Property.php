@@ -39,7 +39,14 @@ class Property extends Model
 
     public function amenities()
     {
-        return $this->belongsToMany(Amenity::class, 'property_amenity');
+        return $this->belongsToMany(
+        Amenity::class, 
+        'property_amenity', 
+        'property_id',     // Foreign key on property_amenity table for this model
+        'amenity_id',      // Foreign key on property_amenity table for the related model
+        'property_id',     // Local key on properties table
+        'amenity_id'       // Local key on amenities table
+    );
     }
 
     public function reviews()

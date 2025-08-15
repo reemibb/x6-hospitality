@@ -15,28 +15,35 @@ class Room extends Model
         'property_id', 'room_type', 'price_per_night', 'description', 'photos'
     ];
 
+    protected $casts = [
+        'photos' => 'array',
+        'price_per_night' => 'decimal:2',
+    ];
+
     public function property()
     {
-        return $this->belongsTo(Property::class);
+        return $this->belongsTo(Property::class, 'property_id', 'property_id');
     }
 
     public function amenities()
     {
-        return $this->belongsToMany(Amenity::class, 'room_amenity');
+        return $this->belongsToMany(
+            Amenity::class, 
+            'room_amenity', 
+            'room_id',
+            'amenity_id',
+            'room_id',
+            'amenity_id'
+        );
     }
 
     public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class, 'room_id', 'room_id');
     }
 
     public function availability()
     {
-        return $this->hasMany(Availability::class);
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Availability::class, 'room_id', 'room_id');
     }
 }
