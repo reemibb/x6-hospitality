@@ -46,4 +46,17 @@ class Room extends Model
     {
         return $this->hasMany(Availability::class, 'room_id', 'room_id');
     }
+
+    public function getDisplayNameAttribute()
+    {
+        return $this->property->title . ' - ' . $this->room_type . ' (ID: ' . $this->room_id . ')';
+    }
+
+    public function getCurrentAvailabilityAttribute()
+    {
+        return $this->availability()
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->first();
+    }
 }
