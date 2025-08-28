@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('country');
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->json('photos')->nullable();
             $table->timestamps();
 
             $table->foreign('host_id')->references('id')->on('users')->onDelete('cascade');

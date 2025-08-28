@@ -140,7 +140,6 @@ class AvailabilityResource extends Resource
                                     ->required()
                                     ->native(false)
                                     ->displayFormat('M j, Y')
-                                    // Remove minDate completely to allow any date
                                     ->reactive()
                                     ->afterStateUpdated(function (callable $set, $state) {
                                         if ($state) {

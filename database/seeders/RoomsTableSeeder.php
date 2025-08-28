@@ -13,7 +13,6 @@ class RoomsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Clear existing data first
         DB::table('room_amenity')->delete();
         DB::table('rooms')->delete();
         
@@ -83,29 +82,24 @@ class RoomsTableSeeder extends Seeder
         DB::table('rooms')->insert($rooms);
 
         $roomAmenities = [
-            // Suite (room_id: 1) - room amenities
             ['room_id' => 1, 'amenity_id' => 29], // Balcony
             ['room_id' => 1, 'amenity_id' => 30], // Ocean View
             ['room_id' => 1, 'amenity_id' => 28], // Mini Bar
             ['room_id' => 1, 'amenity_id' => 36], // TV
             ['room_id' => 1, 'amenity_id' => 37], // Safe
 
-            // Double Room (room_id: 2) - room amenities
             ['room_id' => 2, 'amenity_id' => 29], // Balcony
             ['room_id' => 2, 'amenity_id' => 30], // Ocean View
             ['room_id' => 2, 'amenity_id' => 36], // TV
             ['room_id' => 2, 'amenity_id' => 37], // Safe
 
-            // Studio (room_id: 3) - room amenities
             ['room_id' => 3, 'amenity_id' => 31], // Kitchenette
             ['room_id' => 3, 'amenity_id' => 36], // TV
             ['room_id' => 3, 'amenity_id' => 37], // Safe
 
-            // Single Room (room_id: 4) - room amenities
             ['room_id' => 4, 'amenity_id' => 36], // TV
             ['room_id' => 4, 'amenity_id' => 37], // Safe
 
-            // Presidential Suite (room_id: 5) - room amenities
             ['room_id' => 5, 'amenity_id' => 28], // Mini Bar
             ['room_id' => 5, 'amenity_id' => 29], // Balcony
             ['room_id' => 5, 'amenity_id' => 32], // Fireplace
@@ -113,7 +107,6 @@ class RoomsTableSeeder extends Seeder
             ['room_id' => 5, 'amenity_id' => 36], // TV
             ['room_id' => 5, 'amenity_id' => 37], // Safe
 
-            // Deluxe Room (room_id: 6) - room amenities
             ['room_id' => 6, 'amenity_id' => 28], // Mini Bar
             ['room_id' => 6, 'amenity_id' => 29], // Balcony
             ['room_id' => 6, 'amenity_id' => 36], // TV
